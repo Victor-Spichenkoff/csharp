@@ -1,0 +1,1 @@
+csc -out:dist/Aula56.exe Aula56.cs && cd ./dist && Aula56 && cd  ../

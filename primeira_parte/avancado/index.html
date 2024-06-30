@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100vh;
+            background: linear-gradient(to right, skyblue, blue);
+            font-size: large;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .label {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste</h1>
+    <button id="btn">Mim Clicka</button>
+    <div id="label">APARECi !</div>
+
+    <script>
+const btn = document.getElementById("btn")
+const label = document.getElementById("label")
+var show = false
+
+btn.onclick = () => {
+    show = !show
+    if(show) {
+        label.style.display="block"
+        return
+    }
+
+    label.style.display = "none"
+}
+    </script>
+</body>
+</html>
