@@ -1,0 +1,14 @@
+﻿<Window x:Class="Presentaion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentaion"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label x:Name="btn" Content="Click" HorizontalAlignment="Left" Margin="169,44,0,0" VerticalAlignment="Top" Width="118" Background="#FFD42B2B" Foreground="#FFFFF7F7"/>
+        <TextBox x:Name="input" HorizontalAlignment="Left" Margin="90,144,0,0" TextWrapping="Wrap" Text="Escre algo e veja o resultado" VerticalAlignment="Top" Width="276" Height="29" AutomationProperties.Name="input" FontFamily="Arial" TextChanged="input_TextChanged"/>
+        <Label x:Name="result" Content="Escreva algo e veja o resultado" HorizontalAlignment="Left" Margin="142,88,0,0" VerticalAlignment="Top" AutomationProperties.Name="result" Foreground="#FF372B2B"/>
+    </Grid>
+</Window>

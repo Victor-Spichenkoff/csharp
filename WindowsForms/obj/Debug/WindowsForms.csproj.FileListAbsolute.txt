@@ -7,4 +7,7 @@ C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.csproj.GenerateRes
 C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.csproj.CoreCompileInputs.cache
 C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.exe
 C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.pdb
-C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.Entrada.resources
+C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.F_Principal.resources
+C:\Users\Pichau\CURSOS\C#\WindowsForms\bin\Debug\aa\WindowsForms.resources.dll
+C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\WindowsForms.F_Principal.aa.resources
+C:\Users\Pichau\CURSOS\C#\WindowsForms\obj\Debug\aa\WindowsForms.resources.dll

@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms
 {
-    partial class Entrada
+    partial class F_Principal
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -28,53 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.meuBtn = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(F_Principal));
+            this.add = new System.Windows.Forms.Button();
             this.lb = new System.Windows.Forms.Label();
-            this.input = new System.Windows.Forms.TextBox();
+            this.lista = new System.Windows.Forms.TextBox();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.inputName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // meuBtn
+            // add
             // 
-            this.meuBtn.BackColor = System.Drawing.SystemColors.Highlight;
-            this.meuBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.meuBtn.ForeColor = System.Drawing.Color.White;
-            this.meuBtn.Location = new System.Drawing.Point(12, 27);
-            this.meuBtn.Name = "meuBtn";
-            this.meuBtn.Size = new System.Drawing.Size(100, 33);
-            this.meuBtn.TabIndex = 0;
-            this.meuBtn.Text = "OK";
-            this.meuBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.meuBtn.UseVisualStyleBackColor = false;
-            this.meuBtn.Click += new System.EventHandler(this.button1_Click);
+            this.add.BackColor = System.Drawing.SystemColors.Highlight;
+            this.add.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.add.ForeColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.add, "add");
+            this.add.Name = "add";
+            this.add.UseVisualStyleBackColor = false;
+            this.add.Click += new System.EventHandler(this.button1_Click);
             // 
             // lb
             // 
-            this.lb.AutoSize = true;
-            this.lb.Location = new System.Drawing.Point(36, 63);
+            resources.ApplyResources(this.lb, "lb");
             this.lb.Name = "lb";
-            this.lb.Size = new System.Drawing.Size(34, 13);
-            this.lb.TabIndex = 1;
-            this.lb.Text = "Teste";
             this.lb.Click += new System.EventHandler(this.label1_Click);
             // 
-            // input
+            // lista
             // 
-            this.input.Location = new System.Drawing.Point(12, 1);
-            this.input.Name = "input";
-            this.input.Size = new System.Drawing.Size(100, 20);
-            this.input.TabIndex = 2;
+            this.lista.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.lista, "lista");
+            this.lista.Name = "lista";
             // 
-            // Entrada
+            // inputName
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this.inputName, "inputName");
+            this.inputName.Name = "inputName";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Highlight;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.ForeColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // F_Principal
+            // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 512);
-            this.Controls.Add(this.input);
+            this.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.inputName);
+            this.Controls.Add(this.lista);
             this.Controls.Add(this.lb);
-            this.Controls.Add(this.meuBtn);
-            this.Name = "Entrada";
-            this.Text = "Meu Programa";
+            this.Controls.Add(this.add);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "F_Principal";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -83,10 +102,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Button meuBtn;
+        private System.Windows.Forms.Button add;
         private System.Windows.Forms.Label lb;
-        private System.Windows.Forms.TextBox input;
+        private System.Windows.Forms.TextBox lista;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.TextBox inputName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
