@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NSRandomNumber;
+using NSJokenPo;
 using Consoles;
 using System.Diagnostics;
 
@@ -41,12 +42,26 @@ class Program
         }
 
         if(res == "1")
-        {
             RandomNumber.Principal();
+
+        if(res == "2")
+            JokenPo.Principal();
+        
+        if(res == "q")
+        {
+            Console.Clear();
+            Console.WriteLine("Adeus");
+            System.Environment.Exit(0);
+            return;
         }
+
+
+        ChoseGame();
     }
     public static void Main(string[] args)
     {
+        Console.Clear();
         ChoseGame();
+        System.Environment.Exit(0);
     }
 }

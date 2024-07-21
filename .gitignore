@@ -1,0 +1,86 @@
+# Build results
+bin/
+obj/
+out/
+
+# Common Node.js directories
+node_modules/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNet
+**/project.lock.json
+**/project.fragment.lock.json
+artifacts/
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*.BuildLog
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core
+wwwroot/
+.vscode/
+.vs/
+.env
+.env.*
+
+# .NET MAUI
+obj/
+bin/
+AppPackages/
+AppCenter/
+AppCenterConfig.json
+
+# Visual Studio auto generated files
+.vscode/
+.vscode/
+.vscode/settings.json
+
+# Windows-specific files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS-specific files
+.DS_Store
+
+# Visual Studio auto generated files
+.vscode/
+.vscode/
+.vs/
+.vscode/settings.json

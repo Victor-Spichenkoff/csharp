@@ -12,3 +12,4 @@ C:\Users\Pichau\CURSOS\C#\toys\obj\Debug\net8.0\refint\toys.dll
 C:\Users\Pichau\CURSOS\C#\toys\obj\Debug\net8.0\toys.pdb
 C:\Users\Pichau\CURSOS\C#\toys\obj\Debug\net8.0\toys.genruntimeconfig.cache
 C:\Users\Pichau\CURSOS\C#\toys\obj\Debug\net8.0\ref\toys.dll
+C:\Users\Pichau\CURSOS\C#\toys\obj\Debug\net8.0\toys.sourcelink.json
