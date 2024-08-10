@@ -1,0 +1,6 @@
+@Teddy_HostAddress = http://localhost:5278
+
+GET {{Teddy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

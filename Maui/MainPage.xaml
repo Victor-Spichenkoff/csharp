@@ -16,6 +16,7 @@
 
         <Entry Placeholder="Digite uma tarefa"
                Grid.Row="1"
+               Background="BlueViolet"
                />
 
         <Button
