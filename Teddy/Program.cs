@@ -15,7 +15,8 @@ builder.Services.AddSwaggerGen();
 
 ///dependency injection
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
-
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
 //sedding
 builder.Services.AddTransient<Seed>();
