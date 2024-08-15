@@ -128,6 +128,9 @@ namespace Teddy.Migrations
                     b.Property<long?>("PokemonId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long?>("ReviewerId")
                         .HasColumnType("INTEGER");
 

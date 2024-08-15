@@ -18,9 +18,14 @@ builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
+
+
 //sedding
 builder.Services.AddTransient<Seed>();
 //transient == adiciona coisas no começo (inicio do projeto e não start)
+//adicionar automapper (DTO)
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 //Context
 builder.Services.AddDbContext<DataContext>(options =>

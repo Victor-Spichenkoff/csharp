@@ -22,4 +22,11 @@ public class CountriesController(ICountryRepository cr) : Controller
 
         return Ok(res);
     }
+
+    [HttpPost("{name}")]
+    [ProducesResponseType(200, Type = typeof(Country))]
+    public Country CreateOneCountry(string name)
+    {
+        return _cr.CreateCountry(name);
+    }
 }

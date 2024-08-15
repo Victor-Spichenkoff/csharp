@@ -11,8 +11,8 @@ using Teddy.Data;
 namespace Teddy.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240809170139_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240814171552_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,9 @@ namespace Teddy.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("PokemonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("ReviewerId")
