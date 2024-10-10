@@ -29,5 +29,4 @@ Escolha: ";
 [2] - Papel
 [3] - Tesoura
 Sua jogada: ";
-
 }

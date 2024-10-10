@@ -14,10 +14,11 @@
             BackgroundColor="SkyBlue"
             />
 
-        <Entry Placeholder="Digite uma tarefa"
-               Grid.Row="1"
-               Background="BlueViolet"
-               />
+        <Entry 
+            Placeholder="Digite uma tarefa"
+            Grid.Row="1"
+            Background="SkyBlue"
+            />
 
         <Button
             Text="Add"

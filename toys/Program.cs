@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 class Program
 {
-    private static int totalGames = 1;
+    private static int totalGames = 2;
 
     private static void Help()
     {
