@@ -17,7 +17,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
-
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+builder.Services.AddScoped<IReviewerRespository, ReviewerRepository>();
 
 
 //sedding
@@ -55,8 +57,6 @@ void SeedData(IHost app)
         service?.SeedDataContext();
     }
 }
-
-
 
 
 
