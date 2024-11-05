@@ -7,6 +7,7 @@ class MyStrings {
     [0] - Ajuda
     [1] - Adivinhe o número 
     [2] - Jokenpô
+    [3] - Anagramas
     [q] - Sair
 Escolha: ";
     }

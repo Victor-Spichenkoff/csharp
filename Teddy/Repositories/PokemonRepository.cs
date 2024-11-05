@@ -7,7 +7,7 @@ using Teddy.Models;
 
 namespace Teddy.Repositories;
 
-public class PokemonRepository: IPokemonRepository
+public class PokemonRepository : IPokemonRepository
 {
     //datacontext == meu conhtexto de db
     private readonly DataContext _context;
@@ -54,5 +54,44 @@ public class PokemonRepository: IPokemonRepository
         return _context.Pokemon
             .ProjectTo<PokemonDto>(_mapper.ConfigurationProvider)
             .ToList();
+    }
+
+
+    public bool CreatePokemon(long OwnerId, long categoryId, Pokemon pokemon)
+    {
+        //pegar a entidade completa
+        var pokemonOwnerEntity = _context.Owners.Where(o => o.Id == OwnerId).FirstOrDefault();
+        var categoryEnitity = _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
+
+        // pokemon owner == entidade de relacionamento do pokemon
+        var pokemonOwner = new PokemonOwner()
+        {
+            //Owner = pokemonOwnerEntity,
+            OwnerId = OwnerId,//auto mapeado pelo EF
+            Pokemon = pokemon
+        };
+
+        _context.PokemonOwners.Add(pokemonOwner);
+
+        var pokemonCategory = new PokemonCategory()
+        { 
+            Category = categoryEnitity,
+            Pokemon = pokemon
+        };
+
+        //esse jeito é mais simplificado
+        _context.Add(pokemonCategory);
+
+
+        _context.Pokemon.Add(pokemon);
+
+        return _context.SaveChanges() > 0; 
+    }
+
+    public bool UpdatePokemon(long ownerId, long categoryId, Pokemon pokemon)
+    {
+        _context.Update(pokemon);
+
+        return _context.SaveChanges() > 0; 
     }
 }

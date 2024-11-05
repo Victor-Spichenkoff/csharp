@@ -96,4 +96,22 @@ public class CountriesController(ICountryRepository cr, IMapper mapper) : Contro
 
         return Ok("Created Country!");
     }
+
+
+    [HttpDelete("{countryId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteCountry(long countryId)
+    {
+        if (!_cr.CountryExistis(countryId))
+            return StatusCode(404, "País não existe");
+
+        var success = _cr.DeleteCountry(countryId);
+
+        if (!success)
+            return BadRequest("Algo deu errado");
+
+        return NoContent();
+    }
+
 }

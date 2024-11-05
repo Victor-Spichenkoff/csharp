@@ -63,4 +63,13 @@ public class CountryRepository(DataContext context, IMapper m) : ICountryReposit
 
         return _context.SaveChanges() > 0;
     }
+
+    public bool DeleteCountry(long id)
+    {
+        var countryToDelete = new Country { Id = id };
+
+        _context.Countries.Remove(countryToDelete);
+
+        return _context.SaveChanges() > 0;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Teddy.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Teddy.Data;
 using Teddy.Interfaces;
 using Teddy.Models;
 
@@ -8,6 +9,13 @@ public class ReviewRepository(DataContext context) : IReviewRepository
 {
     //datacontext == meu conhtexto de db
     private readonly DataContext _context = context;
+
+    public bool CreateReview(Review review)
+    {
+        _context.Reviews.Add(review);
+
+        return _context.SaveChanges() > 0;
+    }
 
     public Review GetReview(long id)
     {

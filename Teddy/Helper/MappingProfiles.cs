@@ -11,10 +11,10 @@ public class MappingProfiles: Profile
 
         //reverse, para fazer o post
         // recebido, saida
-        CreateMap<Pokemon, PokemonDto>();
+        CreateMap<Pokemon, PokemonDto>().ReverseMap();
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
-        CreateMap<Owner, OwnerDto>();
-        CreateMap<Review, ReviewDto>();
+        CreateMap<Owner, OwnerDto>().ReverseMap();
+        CreateMap<Review, ReviewDto>().ReverseMap();
     }
 }

@@ -2,10 +2,9 @@ using System;
 
 namespace Inputs;
 
-
 public class Input()
 {
-    public static string String(string label)
+    public static string? String(string label)
     {
         Console.Write(label);
         string? res = Console.ReadLine();
@@ -23,12 +22,14 @@ Retorna um número inteiro
     {
         Console.Write(label);
         string? res = Console.ReadLine();
-        if(res == null)
+        if (res == null)
             return Int(label);
 
-        try{
-        return int.Parse(res);
-        } catch
+        try
+        {
+            return int.Parse(res);
+        }
+        catch
         {
             Console.WriteLine("Não sabe contar?????????");
             return Int(label);

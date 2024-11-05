@@ -40,4 +40,11 @@ class OwnerRepository(DataContext db): IOwnerRepository
     {
         return _db.Owners.Any(o => o.Id == id);
     }
+
+    public bool CreateOwner(Owner owner)
+    {
+        _db.Owners.Add(owner);
+
+        return _db.SaveChanges() > 0;
+    }
 }

@@ -45,4 +45,21 @@ public class CategoryRepository(DataContext context) : ICategoryRepository
         var saved = _context.SaveChanges();
         return saved > 0;
     }
+
+    public bool UpdateCategory(Category category)
+    {
+        _context.Categories.Update(category);
+
+        return Save();
+    }
+
+    public bool DeleteCategory(long id)
+    {
+        var categoryToDelete = new Category { Id = id };
+
+        //ele precisa receber uma entidade "completa", não funciona só com o ID
+        _context.Categories.Remove(categoryToDelete);
+
+        return _context.SaveChanges() > 0;
+    }
 }

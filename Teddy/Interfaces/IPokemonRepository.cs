@@ -11,4 +11,6 @@ public interface IPokemonRepository
     decimal GetPokemonRating(long pokeId);
     bool PokemonExists(long pokeId);
     ICollection<PokemonDto> GetDtoPokemons();
+    bool CreatePokemon(long OwnerId, long categoryId, Pokemon pokemon);
+    bool UpdatePokemon(long ownerId, long categoryId, Pokemon pokemon);
 }

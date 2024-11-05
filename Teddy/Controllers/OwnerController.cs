@@ -10,10 +10,11 @@ namespace Teddy.Controllers;
 
 [ApiController]
 [Route("/owner")]
-public class OwnerController(IOwnerRepository ownerRepo, IMapper mapper) : Controller
+public class OwnerController(IOwnerRepository ownerRepo, IMapper mapper, ICountryRepository cr) : Controller
 {
     private readonly IOwnerRepository _or = ownerRepo;
     private readonly IMapper _mapper = mapper;
+    ICountryRepository _countryRepo = cr;
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<Owner>), 200)]
@@ -56,5 +57,39 @@ public class OwnerController(IOwnerRepository ownerRepo, IMapper mapper) : Contr
             return BadRequest(ModelState);
 
         return Ok(owner);
+    }
+
+
+    //testes only
+    [HttpGet("all")]
+    public ICollection<Owner> GetFullOwnersData()
+    {
+        return _or.GetOwners();
+    }
+
+
+    [HttpPost]
+    [ProducesResponseType(204)]
+    public IActionResult CreateOwner([FromBody] OwnerDto bodyOwner)
+    {
+        if (bodyOwner == null)
+            return StatusCode(400, "Passe uma resposta");
+
+        var exists = _or.GetOwners()
+            .Where(o => o.Name.Trim().ToUpper() == bodyOwner.Name)
+            .FirstOrDefault();
+
+        if (exists != null)
+            return BadRequest("Already exists");
+
+        var mappedOwner = _mapper.Map<Owner>(bodyOwner);
+
+
+        var success = _or.CreateOwner(mappedOwner);
+
+        if (!success)
+            return BadRequest("Something went wrong");
+
+        return Ok("Created!");
     }
 }

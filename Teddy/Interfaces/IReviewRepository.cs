@@ -8,4 +8,5 @@ public interface IReviewRepository
     Review GetReview(long id);
     ICollection<Review> GetReviewsOfAPokemon(long pokeId);
     bool ReviewExists(long id);
+    bool CreateReview(Review review);
 }

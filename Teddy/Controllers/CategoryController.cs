@@ -92,4 +92,47 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     
         return Ok("Created!");
     }
+
+
+    [HttpPut("/categoryId")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateCategory(long categoryId, [FromBody] CategoryDto bodyCat)
+    {
+        if (categoryId != bodyCat.Id)
+            return BadRequest("Incontância nos dados");
+
+        if (!_cr.CategoryExists(categoryId))
+            return NotFound("Não existe");
+
+
+        var mappedCategory = _mapper.Map<Category>(bodyCat);
+
+        var success = _cr.UpdateCategory(mappedCategory);
+
+        if (!success)
+            BadRequest("Algo deu errado");
+
+
+        return Ok("Updated");
+    }
+
+
+
+    [HttpDelete("{categoryId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteCategory(long categoryId)
+    {
+        //lembrar que podem existir relacionamntos que dependem dela, verificar isso
+        if (!_cr.CategoryExists(categoryId))
+            return StatusCode(404, "Categoria inexistente");
+
+        var success = _cr.DeleteCategory(categoryId);
+
+        if (!success)
+            return BadRequest("Erro ao salvar");
+
+        return NoContent();
+    }
 }

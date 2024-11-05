@@ -4,6 +4,7 @@ using NSRandomNumber;
 using NSJokenPo;
 using Consoles;
 using System.Diagnostics;
+using toys;
 
 class Program
 {
@@ -47,6 +48,9 @@ class Program
         if(res == "2")
             JokenPo.Principal();
         
+        if(res == "3")
+            Anagrams.Principal();
+        
         if(res == "q")
         {
             Console.Clear();
@@ -61,6 +65,7 @@ class Program
     public static void Main(string[] args)
     {
         Console.Clear();
+        // Anagrams.Principal();
         ChoseGame();
         System.Environment.Exit(0);
     }
