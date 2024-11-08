@@ -7,7 +7,7 @@ public class Word
     private static string UserWord;
 
     public static void GetWordFromUser() => 
-        UserWord = Input.String("Qual a palavra: ").Replace(" ", "") ?? "burro";
+        UserWord = Input.String("Qual a palavra: ")?.Replace(" ", "") ?? "burro";
     
     
     public static List<char>? GetRepeatedOrEmpty()
@@ -41,16 +41,13 @@ public class Word
         var repetitions = GetRepeatedOrEmpty();
         var currentFactorialCount = 0;
 
-        List<char> AlreadyUsed = [];
+        List<char> alreadyUsed = [];
 
-        foreach (var letter in UserWord)
+        foreach (var letter in UserWord.Where(letter => !alreadyUsed.Contains(letter)))
         {
-            if (!AlreadyUsed.Contains(letter))
-            {
-                below  *= Factorial(currentFactorialCount);
-                AlreadyUsed.Add(letter);
-                currentFactorialCount = UserWord.Count(wordRepeated => wordRepeated == letter);
-            }
+            below  *= Factorial(currentFactorialCount);
+            alreadyUsed.Add(letter);
+            currentFactorialCount = UserWord.Count(wordRepeated => wordRepeated == letter);
         }
 
         return top / below;

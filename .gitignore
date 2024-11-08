@@ -1,5 +1,6 @@
 # Build results
-bin/
+ toys/bin/
+ toys/obj/
 obj/
 out/
 
