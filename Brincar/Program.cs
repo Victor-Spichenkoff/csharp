@@ -1,6 +1,7 @@
 ﻿using Brincar;
 using Brincar.Animais;
 using Brincar.Aula_4;
+using Brincar.RPG;
 
 class Program
 {
@@ -9,9 +10,11 @@ class Program
         //Aula_4.Contador_Vogal();
 
         // Logica_Madeiras.Principal();
-        
+
         // projetinho para testar instâncias
-        Animal_Brincar.Rodar();
+        // Animal_Brincar.Rodar();
+        
+        // projeto de luta
+        Bricar_RPG.Rodar();
     }
-    
 }
