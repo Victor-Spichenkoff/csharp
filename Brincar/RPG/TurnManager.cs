@@ -5,25 +5,38 @@ public class TurnManager(Player player, Bot bot)
     private int _wins = -1;
     private readonly Player _player = player;
     private Bot _bot = bot;
-    public static bool StopThisBattle = false;
     
-    
+    public static bool StopAllBattles = false;
+    public static int BattlesCount = 0;
     
 
     public void OneRound()
     {
+        // cada um executa um ataque + verificações
         if (_bot.CurrentBot != null) _player.MyTurn(_bot.CurrentBot);
-        _bot.MyTurn(player.CurrentPlayer);
+
+        Thread.Sleep(2000);
         
-        if(_bot.CurrentBot.IsDead)
-             BotLoseThis();
-        if (_player.CurrentPlayer.IsDead)
-            PLayerLose();
+        
+        // ver se já morreu (não jogar)
+        if(!_bot.CurrentBot.IsDead) 
+            _bot.MyTurn(player.CurrentPlayer);
+        else
+            Console.WriteLine($"{_bot.CurrentBot.Nome} foi DERROTADO");
+
+
         
         Logs.LifeInfos(
             _player.CurrentPlayer.Nome, _player.CurrentPlayer.GetRemainingLifePercent(), 
             _bot.CurrentBot.Nome, _bot.CurrentBot.GetRemainingLifePercent()
         );
+        
+        // mostrar só no final se ganhou
+        if (_player.CurrentPlayer.IsDead)
+            PLayerLose();
+        
+        if(_bot.CurrentBot.IsDead)
+            BotLoseThis();
     }
 
     public void BotLoseThis()
@@ -32,7 +45,7 @@ public class TurnManager(Player player, Bot bot)
         var shouldCreateNewBattle = Input("Nova batalha[s/n]:").ToLower();
         if (shouldCreateNewBattle == "n")
         {
-            TurnManager.StopThisBattle = true;
+            TurnManager.StopAllBattles = true;
             return;
         }
 
@@ -42,6 +55,14 @@ public class TurnManager(Player player, Bot bot)
     private void PLayerLose()
     {
         Logs.YouLose(_bot.CurrentBot.Nome);
+        
+        
+        var shouldCreateNewBattle = Input("Nova batalha[s/n]:").ToLower();
+        if (shouldCreateNewBattle == "n")
+        {
+            TurnManager.StopAllBattles = true;
+            return;
+        }
     }
     
     
@@ -54,10 +75,12 @@ public class TurnManager(Player player, Bot bot)
 
     public void NewBattle()
     {
+        TurnManager.StopAllBattles = false;
         _bot = new Bot();
         _bot.CreateNewBot();
         _wins++;
-        _player.CurrentPlayer.Vida +=
-            GiveLifeIncrease((int)_player.CurrentPlayer.Vida, _player.CurrentPlayer.VidaInicial);
+        var increaseLife = GiveLifeIncrease((int)_player.CurrentPlayer.Vida, _player.CurrentPlayer.VidaInicial);
+        _player.CurrentPlayer.Vida += increaseLife;
+        Console.WriteLine($"Sua vida foi recuperada em {increaseLife} -> {_player.CurrentPlayer.Vida}");
     }
 }

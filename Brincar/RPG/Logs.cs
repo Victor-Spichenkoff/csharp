@@ -28,12 +28,17 @@ public class Logs
 
     public static void YouLose(string botName)
     {
-        Console.Clear();
         Console.WriteLine("=================================");
         Console.WriteLine($"{botName} derrotou você");
         Console.WriteLine("=================================");
     }
-        
+
+
+    public static void LastBattlesResult(string playerName, int winsCount)
+    {
+        Console.Clear();
+        Console.WriteLine($"{playerName} venceu {winsCount} batalhas");
+    }
     
     private static string FormatarVida(string nome, int percentVida)
     {

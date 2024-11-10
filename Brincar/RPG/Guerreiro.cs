@@ -6,6 +6,6 @@ public class Guerreiro : Personagem
     {
         Nome = nome;
         Ataque = 25;
-        Defesa = 0;
+        Defesa = 25;
     }
 }

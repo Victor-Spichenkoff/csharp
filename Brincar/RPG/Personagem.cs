@@ -19,7 +19,7 @@ public class Personagem
         get => _vida;
         set
         {
-            if (_vida - value < 0)
+            if (value <= 0)
             {
                 _vida = 0;
                 Morrer();
@@ -45,8 +45,11 @@ public class Personagem
     public void Atacar(Personagem inimigo)
     {
         var random = new Random();
-        var buff = random.Next(1, 21) / 10;
-        inimigo.Defender(buff * Ataque);
-        Logs.AtaqueInfos(Nome, inimigo.Nome, buff * Ataque);
+        double buff = random.Next(1, 21);
+        // inimigo.Defender(buff * Ataque);
+        var finalDamage = (int)Math.Ceiling(buff / 10 * Ataque);
+        inimigo.Defender(finalDamage);
+        Logs.AtaqueInfos(Nome, inimigo.Nome, finalDamage);
+        // Logs.AtaqueInfos(Nome, inimigo.Nome, buff * Ataque);
     }
 }
