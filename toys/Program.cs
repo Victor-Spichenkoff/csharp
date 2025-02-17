@@ -8,7 +8,7 @@ using toys;
 
 class Program
 {
-    private static int totalGames = 2;
+    private static int totalGames = 3;
 
     private static void Help()
     {
