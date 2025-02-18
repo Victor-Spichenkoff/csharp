@@ -9,8 +9,8 @@ public class Filters
         get { return _size; }
         set
         {
-            if(value < 4) _size = value;
-            else if (value > 16) _size = 16;
+            if (value <= 2) _size = 2;
+            else if (value > 32) _size = 32;
             else _size = value;
         }
     }

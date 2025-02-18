@@ -35,4 +35,15 @@ Retorna um número inteiro
             return Int(label);
         }
     }
+    
+    
+    /*
+     * * Passar com o [s/n]
+     */
+    public static bool Bool(string label)
+    {
+        Console.Write(label);
+        var res = Console.ReadLine();
+        return res?.ToLower() == "s";
+    }
 }

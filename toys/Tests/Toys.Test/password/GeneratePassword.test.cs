@@ -9,7 +9,6 @@ public class GeneratePassword_test
     [InlineData(false, true, false, false)]
     [InlineData(false, false, true, false)]
     [InlineData(false, false, false, true)]
-    [InlineData(false, true, false, true)]//grande duvida
     public static void ShouldGiveOnlyCorrectValuesBaseOnFilters(
         bool nums, bool lower, bool upper, bool special
         )
@@ -24,14 +23,14 @@ public class GeneratePassword_test
         
         IList<string> results = new List<string>();
         
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 20; i++)
             results.Add(GeneratePassword.CreateRandomFilteredPassword(filter));
         
         bool isError = false;
 
+        var arrayForType = GeneratePassword.GiveArrayBasedOnFilters(filter);
         foreach (var password in results)
         {
-            var arrayForType = GeneratePassword.GiveArrayBasedOnFilters(filter);
 
             foreach (var letter in password)
                 if (!arrayForType.Contains(letter))

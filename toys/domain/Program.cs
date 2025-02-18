@@ -29,7 +29,7 @@ class Program
             RandomNumber.Describe();
         }
     }
-
+    
     private static void ChoseGame()
     {
         Console.Write(MyStrings.GetGamesTable());
@@ -49,6 +49,9 @@ class Program
         if(res == "3")
             Anagrams.Principal();
         
+        if(res == "4")
+            Password.Principal();
+        
         if(res == "q")
         {
             Console.Clear();
@@ -57,14 +60,13 @@ class Program
             return;
         }
 
-
         ChoseGame();
     }
     public static void Main(string[] args)
     {
         Console.Clear();
-        Password.Principal();
-        // ChoseGame();
+        // Password.Principal();
+        ChoseGame();
         System.Environment.Exit(0);
     }
 }

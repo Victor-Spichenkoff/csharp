@@ -8,6 +8,7 @@ class MyStrings {
     [1] - Adivinhe o número 
     [2] - Jokenpô
     [3] - Anagramas
+    [4] - Password Generator
     [q] - Sair
 Escolha: ";
     }
