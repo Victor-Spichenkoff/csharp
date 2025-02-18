@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NSRandomNumber;
+﻿using NSRandomNumber;
 using NSJokenPo;
 using Consoles;
-using System.Diagnostics;
 using toys;
+using toys.password;
 
 class Program
 {
@@ -65,8 +63,8 @@ class Program
     public static void Main(string[] args)
     {
         Console.Clear();
-        // Anagrams.Principal();
-        ChoseGame();
+        Password.Principal();
+        // ChoseGame();
         System.Environment.Exit(0);
     }
 }
