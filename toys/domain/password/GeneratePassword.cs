@@ -34,19 +34,29 @@ public static class GeneratePassword
                 final += uppercaseLetters[new Random().Next(0, uppercaseLetters.Length - 1)];
             else if (!filters.useSpecialChars)
             {
-                var random = new Random();
-                var useType = random.Next(1, 4);
-                if (useType == 1)
-                    final += numbers[new Random().Next(0, numbers.Length - 1)];
-                else if (useType == 2)
-                    final += uppercaseLetters[new Random().Next(0, uppercaseLetters.Length - 1)];
-                else
-                    final += lowercaseLetters[new Random().Next(0, lowercaseLetters.Length - 1)];
+                char[] allWithoutSpecial = [.. numbers, ..lowercaseLetters, ..uppercaseLetters];
+
+                final += allWithoutSpecial[new Random().Next(0, allWithoutSpecial.Length - 1)];
             }
             else
                 return CreateRandomFullPassword(filters.Size);
         }
 
         return final;
+    }
+
+
+    public static char[] GiveArrayBasedOnFilters(Filters filters)
+    {
+        if (filters.onlyLowerCase)
+            return lowercaseLetters;
+        else if (filters.onlyUpperCase)
+            return uppercaseLetters;
+        else if (filters.onlyNumbers)
+            return numbers;
+        else if (filters.useSpecialChars)
+            return allCharacters;
+        else
+            return [.. numbers, ..lowercaseLetters, ..uppercaseLetters];
     }
 }
