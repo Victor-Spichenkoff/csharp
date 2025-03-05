@@ -1,7 +1,10 @@
 ﻿using NSRandomNumber;
 using NSJokenPo;
 using Consoles;
+using Microsoft.Extensions.DependencyInjection;
 using toys;
+using toys.banco;
+using toys.Data;
 using toys.password;
 
 class Program
@@ -64,9 +67,13 @@ class Program
     }
     public static void Main(string[] args)
     {
-        Console.Clear();
+        var scope = ContextUtils.ConfigureDI();
+        var br = scope.ServiceProvider.GetRequiredService<BankRepository>();
+        var Bank = new BankEntry(br);
+;        Bank.Run();
+        // Console.Clear();
         // Password.Principal();
-        ChoseGame();
+        // ChoseGame();
         System.Environment.Exit(0);
     }
 }
