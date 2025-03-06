@@ -70,7 +70,7 @@ class Program
         var scope = ContextUtils.ConfigureDI();
         var br = scope.ServiceProvider.GetRequiredService<BankRepository>();
         var Bank = new BankEntry(br);
-;        Bank.Run();
+        Bank.Run();
         // Console.Clear();
         // Password.Principal();
         // ChoseGame();
