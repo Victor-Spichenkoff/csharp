@@ -4,7 +4,7 @@ namespace Inputs;
 
 public class Input()
 {
-    public static string? String(string label)
+    public static string String(string label)
     {
         Console.Write(label);
         string? res = Console.ReadLine();
@@ -36,6 +36,23 @@ Retorna um número inteiro
         }
     }
     
+    public static double Double(string label)
+    {
+        Console.Write(label);
+        string? res = Console.ReadLine();
+        if (res == null)
+            return Int(label);
+
+        try
+        {
+            return double.Parse(res);
+        }
+        catch
+        {
+            Console.WriteLine("Não sabe contar?????????");
+            return Int(label);
+        }
+    }
     
     /*
      * * Passar com o [s/n]
@@ -45,5 +62,15 @@ Retorna um número inteiro
         Console.Write(label);
         var res = Console.ReadLine();
         return res?.ToLower() == "s";
+    }    
+    
+    /*
+     * * Passar com o [y/n]
+     */
+    public static bool BoolEnglish(string label)
+    {
+        Console.Write(label);
+        var res = Console.ReadLine();
+        return res?.ToLower() == "y";
     }
 }

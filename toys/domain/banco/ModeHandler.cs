@@ -15,7 +15,7 @@ public static class ModeHandler
         {
             var type = Input.String("What do you want to do? ");
             if(type == "1")
-                return Modes.SelectionLogged;
+                return Modes.Login;
             else if (type == "2")
                 return Modes.Register;
             else if (type == "3")
@@ -41,8 +41,8 @@ public static class ModeHandler
             return Modes.Sake;
         else if (type == "3")
             return Modes.Deposit;        
-        else if (type == "4")
-            return Modes.Exit;
+        else if (type == "q")
+            return Modes.SelectionInitial;
             
         Console.WriteLine("Wrong!");
         }

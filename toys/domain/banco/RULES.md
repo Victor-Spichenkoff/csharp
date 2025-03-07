@@ -63,4 +63,6 @@ Esses elementos formam a classe base chamada Conta.
 - Pode realizar as operações
 - Deve mostrar logs
   - Se chegou, quando
-  - 
+
+
+- Cada classe cuida integramente de lidar com o tipo.
