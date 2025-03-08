@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using toys.banco;
 
 namespace toys.Data;
@@ -18,7 +19,8 @@ public class ContextUtils
         using (var scope = serviceProvider.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-            db.Database.EnsureCreated();
+            // db.Database.EnsureCreated();
+            // db.Database.Migrate();
         }
 
         return serviceProvider.CreateScope();

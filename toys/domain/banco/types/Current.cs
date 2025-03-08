@@ -2,7 +2,7 @@
 
 public class Current: BaseAccount
 {
-    public Current(string holder, double balance) : base(AccountType.Current, holder, balance) {}
+    public Current(int id, string holder, double balance) : base(id, AccountType.Current, holder, balance) {}
     
     
 }

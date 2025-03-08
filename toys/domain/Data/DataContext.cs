@@ -7,9 +7,11 @@ namespace toys.Data;
 public class DataContext : DbContext
 {
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Transference> Transferences { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     
+    // configurado usando factory
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=bank.db");
 }

@@ -13,7 +13,7 @@ public class CreateCorrectClass
             // case AccountType:
             //     return new Current(accountInfo.Holder, accountInfo.Balance);
             default:
-                return new Current(accountInfo.Holder, accountInfo.Balance);
+                return new Current(accountInfo.Id, accountInfo.Holder, accountInfo.Balance);
         }
     }
 }

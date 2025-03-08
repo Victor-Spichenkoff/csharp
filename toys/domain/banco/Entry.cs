@@ -15,11 +15,17 @@ public class BankEntry(BankRepository br)
         while (true)
         {
             if (_mode == Modes.SelectionInitial)
+            {
                 _mode = ModeHandler.SelectInitialType();
+                continue;// para não usar o Sleep
+            }
             else if (_mode == Modes.Close)
                 break;
-            else if (_mode == Modes.SelectionLogged)
+            else if (_mode == Modes.SelectionLogged) // já logado, o que fazer?
+            {
                 _mode = ModeHandler.SelectType();
+                continue;// para não passar pelo Sleep
+            }
             
             if (_mode == Modes.Login)
             {
@@ -36,17 +42,28 @@ public class BankEntry(BankRepository br)
                 _mode = Modes.SelectionLogged;
             }
             
-            if(_mode == Modes.Consult)
-                Console.WriteLine("Consut");
-            else if(_mode == Modes.Sake)
-                Console.WriteLine("Sake");
-            else if(_mode == Modes.Deposit)
-                Console.WriteLine("Depositar");
-            else if (_mode == Modes.Close)
+
+            // controlar as açoes pós login
+            switch (_mode)
             {
-                Console.WriteLine("Saindo");
-                break;
+                case Modes.Consult:
+                    _mode = Modes.SelectionLogged;
+                    _currentAccount?.GetBalance(); break;
+                case Modes.Sake:
+                    _currentAccount?.Sake();
+                    _mode = Modes.SelectionLogged; break;
+                case Modes.ShowTransfers:
+                    _currentAccount?.ShowTransfers();
+                    _mode = Modes.ShowTransfers; break;
+                case Modes.Close:
+                    Console.WriteLine("Closing Bank");
+                    break; break;
+                default: break;
             }
+            
+            // Deixar melhor de ler
+            // if (_mode == Modes.SelectionLogged)
+            //     Thread.Sleep(2000);
         }
     }
 }
@@ -61,5 +78,9 @@ public enum Modes
     SelectionInitial,
     SelectionLogged,
     Exit,
+    ShowTransfers,
     Close
 }
+
+//TODO:
+// Está pedindo quanto sacar 2 vezes
