@@ -21,13 +21,20 @@ public class BaseAccount
         Balance = balance;
         AccountType = accountType;
         // automático
-        var scope = ContextUtils.ConfigureDI();
-        if (scope != null)
-            _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
-        else
-        {
-            throw new Exception("Scope is null");
-        }
+        var serviceProvider = ContextUtils.ConfigureDI();
+
+        //TODO:> pediu para ser assim
+        // using (var scope = serviceProvider.CreateScope())
+        // {
+            // _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
+        // }
+        var scope = serviceProvider.CreateScope();
+        _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
+        
+        //TODO:
+        Console.WriteLine("PEGAR TRASNFERENCIAS");
+        var test = _bankRepository.GetTransfersDescendent();
+        Console.WriteLine(test);
     }
 
     public virtual bool Sake()

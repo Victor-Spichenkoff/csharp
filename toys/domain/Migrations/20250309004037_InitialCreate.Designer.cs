@@ -11,14 +11,14 @@ using toys.Data;
 namespace toys.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250308214532_Add_transfers_2")]
-    partial class Add_transfers_2
+    [Migration("20250309004037_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
 
             modelBuilder.Entity("toys.banco.Account", b =>
                 {

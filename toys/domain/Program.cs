@@ -67,9 +67,7 @@ class Program
     }
     public static void Main(string[] args)
     {
-        var scope = ContextUtils.ConfigureDI();
-        var br = scope.ServiceProvider.GetRequiredService<BankRepository>();
-        var Bank = new BankEntry(br);
+        var Bank = new BankEntry();
         Bank.Run();
         // Console.Clear();
         // Password.Principal();

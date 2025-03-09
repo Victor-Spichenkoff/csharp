@@ -10,8 +10,15 @@ public class DataContext : DbContext
     public DbSet<Transference> Transferences { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-    
-    // configurado usando factory
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite("Data Source=bank.db");
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bank.db");
+            var path = GetDbPath.Get();
+            Console.WriteLine("PATH base: " + path);
+            optionsBuilder.UseSqlite($"Data Source={path}");
+        }
+    }
 }

@@ -10,12 +10,14 @@ public class BankRepository(DataContext db)
 
     public Account? GetAccountByHolder(string holder)
     {
-        _context.Transferences.Add(new Transference()
-        {
-            ReceiverHolder = "GH",
-            SenderHolder = "AS",
-            Amount = 23
-        });
+        // //TODO: Para testes
+        // _context.Transferences.Add(new Transference()
+        // {
+        //     ReceiverHolder = "GH",
+        //     SenderHolder = "AS",
+        //     Amount = 23
+        // });
+        
     return _context.Accounts.FirstOrDefault(a => a.Holder == holder);
     }
     // public Account? GetAccountByHolder(string holder) =>
