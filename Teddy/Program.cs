@@ -24,7 +24,7 @@ builder.Services.AddScoped<IReviewerRespository, ReviewerRepository>();
 
 //sedding
 builder.Services.AddTransient<Seed>();
-//transient == adiciona coisas no começo (inicio do projeto e não start)
+//transient == adiciona coisas no comeï¿½o (inicio do projeto e nï¿½o start)
 //adicionar automapper (DTO)
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -32,13 +32,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Context
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    //vou usar sql, e essa é a connection string
+    //vou usar sql, e essa ï¿½ a connection string
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
-
-
-
 
 
 var app = builder.Build();

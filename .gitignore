@@ -1,6 +1,6 @@
 # Build results
- toys/bin/
- toys/obj/
+toys/bin/
+toys/obj/
 obj/
 out/
 
@@ -30,6 +30,7 @@ $RECYCLE.BIN/
 # VS Code directories
 .vscode/
 
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
@@ -57,12 +58,13 @@ artifacts/
 wwwroot/
 .vscode/
 .vs/
+.idea
 .env
 .env.*
 
 # .NET MAUI
-obj/
-bin/
+obj
+bin
 AppPackages/
 AppCenter/
 AppCenterConfig.json
