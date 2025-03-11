@@ -23,18 +23,12 @@ public class BaseAccount
         // automático
         var serviceProvider = ContextUtils.ConfigureDI();
 
-        //TODO:> pediu para ser assim
         // using (var scope = serviceProvider.CreateScope())
         // {
             // _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
         // }
         var scope = serviceProvider.CreateScope();
         _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
-        
-        //TODO:
-        Console.WriteLine("PEGAR TRASNFERENCIAS");
-        var test = _bankRepository.GetTransfersDescendent();
-        Console.WriteLine(test);
     }
 
     public virtual bool Sake()
@@ -78,19 +72,20 @@ public class BaseAccount
 
     public bool ShowTransfers(bool skipQuestion = false)
     {
-        var transfersToShow = Input.Int("How much? ");
+        var transfersToShow = Input.Int("How many? ");
 
         if (transfersToShow < 0)
             return ShowTransfers();
 
-        var transfers = _bankRepository.GetTransfersDescendent(transfersToShow);
+        var transfers = _bankRepository.GetTransfersDescendent(Holder, transfersToShow);
 
         Console.WriteLine("================= TRANSFERS =================");
-        
+        Console.WriteLine("     ID           Date            Sender                  Value");
         foreach (var transfer in transfers)
         {
-            var formattedId = transfer.Id.ToString().Substring(0, 4);
-          Console.WriteLine($"ID - {formattedId} -- ${transfer.DateAndTime.ToLocalTime()} -- ${transfer.Amount}");  
+            // todo: Deixar bonito o ID, se igual a outro (no desfazer), mostras as opções completas
+            var formattedId = transfer.Id.ToString().Substring(0, 8);
+            Console.WriteLine($"[ {formattedId} ] {transfer.DateAndTime.ToLocalTime()} -- {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}");  
         }
         
         if (transfers.Count < transfersToShow)
@@ -107,7 +102,7 @@ public class BaseAccount
             if (!more)
                 return true;
             
-            var newTransfers = _bankRepository.GetTransfersDescendent(transfersToShow, transfersToShow * count);
+            var newTransfers = _bankRepository.GetTransfersDescendent(Holder, transfersToShow, transfersToShow * count);
             
             foreach (var transfer in newTransfers)
             {

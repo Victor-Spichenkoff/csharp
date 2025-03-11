@@ -1,4 +1,5 @@
 ﻿using toys.Data;
+using toys.utils;
 
 namespace toys.banco;
 
@@ -8,20 +9,9 @@ public class BankRepository(DataContext db)
 
 
 
-    public Account? GetAccountByHolder(string holder)
-    {
-        // //TODO: Para testes
-        // _context.Transferences.Add(new Transference()
-        // {
-        //     ReceiverHolder = "GH",
-        //     SenderHolder = "AS",
-        //     Amount = 23
-        // });
-        
-    return _context.Accounts.FirstOrDefault(a => a.Holder == holder);
-    }
-    // public Account? GetAccountByHolder(string holder) =>
-    // _context.Accounts.FirstOrDefault(a => a.Holder == holder);
+    public Account? GetAccountByHolder(string holder) =>
+        _context.Accounts.FirstOrDefault(a => a.Holder == holder);
+
     
     public IList<Account> GetAccounts() =>
         _context.Accounts.ToList();
@@ -29,7 +19,7 @@ public class BankRepository(DataContext db)
     public Account CreateAccount(Account account)
     {
         if(_context.Accounts.Any(a => a.Holder == account.Holder ))
-            throw new Exception("Holder already exists");
+            throw new MyError("Holder already exists");
         
         _context.Accounts.Add(account);
         _context.SaveChanges();
@@ -60,9 +50,11 @@ public class BankRepository(DataContext db)
         _context.SaveChanges();
     }
 
-    public IList<Transference> GetTransfersDescendent(int size = 3, int skip = 0)
+    public IList<Transference> GetTransfersDescendent(string holder, int size = 3, int skip = 0)
     {
-        return _context.Transferences.OrderByDescending(a => a.DateAndTime)
+        return _context.Transferences
+            .Where(t => t.SenderHolder == holder || t.ReceiverHolder == holder)
+            .OrderByDescending(a => a.DateAndTime)
                 .Skip(skip)
                 .Take(size)
                 .ToList();

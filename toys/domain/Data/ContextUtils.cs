@@ -27,11 +27,12 @@ public static class ContextUtils
 
         var scope = serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-        db.Database.EnsureDeleted();
+        
+        
+        // db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
         // db.Database.Migrate();
         
-        //TODO: Não pode ser assim?
         // using (var scope = serviceProvider.CreateScope())
         // {
         //     var db = scope.ServiceProvider.GetRequiredService<DataContext>();

@@ -55,13 +55,17 @@ public class Auth(BankRepository br)
         return _br.CreateAccount(account);
     }
 
-    public Account Login()
+    public Account? Login()
     {
-        var holder = Input.String("Holder: ");
+        var holder = Input.String("Holder [q]: ");
+        if (holder.ToLower() == "q")
+            return null;
+        
         var account = _br.GetAccountByHolder(holder);
 
         if (account != null)
             return account;
+        
 
         var accounts = _br.GetAccounts();
         foreach (var a in accounts)

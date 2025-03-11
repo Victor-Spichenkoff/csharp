@@ -2,13 +2,14 @@
 using toys.banco.Actions.Create;
 using toys.banco.types;
 using toys.Data;
+using toys.utils;
 
 namespace toys.banco;
 
 public class BankEntry
 {
     private readonly BankRepository _br;
-    private Modes _mode = Modes.SelectionInitial;
+    public static Modes Mode = Modes.SelectionInitial;
     private BaseAccount? _currentAccount = null;
 
     public BankEntry()
@@ -17,7 +18,6 @@ public class BankEntry
 
         var scope = serviceProvider.CreateScope();
         _br = scope.ServiceProvider.GetRequiredService<BankRepository>();
-        //TODO:> pediu para ser assim
         // using (var scope = serviceProvider.CreateScope())
         // {
         //     _br = scope.ServiceProvider.GetRequiredService<BankRepository>();
@@ -28,67 +28,90 @@ public class BankEntry
     {
         while (true)
         {
-            if (_mode == Modes.SelectionInitial)
+            if (Mode == Modes.SelectionInitial)
             {
-                _mode = ModeHandler.SelectInitialType();
+                Mode = ModeHandler.SelectInitialType();
                 continue; // para não usar o Sleep
             }
-            else if (_mode == Modes.Close)
+            else if (Mode == Modes.Close)
                 break;
-            else if (_mode == Modes.SelectionLogged) // já logado, o que fazer?
+            else if (Mode == Modes.SelectionLogged) // já logado, o que fazer?
             {
-                _mode = ModeHandler.SelectType();
+                Mode = ModeHandler.SelectType();
                 continue; // para não passar pelo Sleep
             }
 
-            if (_mode == Modes.Login)
+            if (Mode == Modes.Login)
             {
                 var auth = new Auth(_br);
                 var accountInfo = auth.Login();
-                _currentAccount = CreateCorrectClass.GiveAccount(accountInfo);
-                _mode = Modes.SelectionLogged;
+                if (accountInfo == null)
+                {
+                    Mode = Modes.SelectionInitial;
+                    continue;
+                }
+                else
+                {
+                    _currentAccount = CreateCorrectClass.GiveAccount(accountInfo);
+                    Mode = Modes.SelectionLogged;
+                }
             }
-            else if (_mode == Modes.Register)
+            else if (Mode == Modes.Register)
             {
                 var auth = new Auth(_br);
                 var accountInfo = auth.CreateAccount();
                 _currentAccount = CreateCorrectClass.GiveAccount(accountInfo);
-                _mode = Modes.SelectionLogged;
+                Mode = Modes.SelectionLogged;
             }
 
 
             // controlar as açoes pós login
-            switch (_mode)
+            switch (Mode)
             {
                 case Modes.Consult:
-                    _mode = Modes.SelectionLogged;
+                    Mode = Modes.SelectionLogged;
                     _currentAccount?.GetBalance();
                     break;
                 case Modes.Sake:
                     _currentAccount?.Sake();
-                    _mode = Modes.SelectionLogged;
+                    Mode = Modes.SelectionLogged;
                     break;
                 case Modes.ShowTransfers:
                     _currentAccount?.ShowTransfers();
-                    _mode = Modes.ShowTransfers;
+                    Mode = Modes.SelectionLogged;
                     break;
                 case Modes.Close:
                     Console.WriteLine("Closing Bank");
                     break;
                     break;
+                // todo:
+                //criar desfazer transfer
                 default: break;
             }
 
             // Deixar melhor de ler
-            // if (_mode == Modes.SelectionLogged)
+            // if (Mode == Modes.SelectionLogged)
             //     Thread.Sleep(2000);
         }
     }
 
+    //TODO:
+    //Formatar saida das trasnferencias:
+    // [ 6d57 ] 10/03/2025 20:43:49 --> $0
+
+    
 
     public void Run()
     {
-        RunningMode();
+        // todo:
+        try
+        {
+            RunningMode();
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.ShowError(ex);
+        }
     }
 }
 
