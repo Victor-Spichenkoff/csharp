@@ -27,9 +27,11 @@ public static class ModeHandler
     public static Modes SelectType()
     {
         Console.WriteLine("\n[ 1 ] Consult");
-        Console.WriteLine("[ 2 ] Sake");
-        Console.WriteLine("[ 3 ] Show Transfers");
-        Console.WriteLine("[ 4 ] Deposit");
+        Console.WriteLine("[ 2 ] Show Account Infos");
+        Console.WriteLine("[ 3 ] Sake");
+        Console.WriteLine("[ 4 ] Show Transfers");
+        Console.WriteLine("[ 5 ] Deposit");
+        Console.WriteLine("[ 6 ] Undo Transfer");
         Console.WriteLine("[ q ] Quit Action Mode");
         while (true)
         {
@@ -38,11 +40,15 @@ public static class ModeHandler
             if (type == "1")
                 return Modes.Consult;
             else if (type == "2")
-                return Modes.Sake;
+                return Modes.ShowInformation;
             else if (type == "3")
-                return Modes.ShowTransfers;
+                return Modes.Sake;
             else if (type == "4")
+                return Modes.ShowTransfers;
+            else if (type == "5")
                 return Modes.Deposit;
+            else if (type == "6")
+                return Modes.UndoTransfer;
             else if (type == "q")
                 return Modes.SelectionInitial;
 

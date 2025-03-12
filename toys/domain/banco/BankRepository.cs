@@ -73,4 +73,11 @@ public class BankRepository(DataContext db)
                 .Take(size)
                 .ToList();
     }
+
+
+    public IList<Transference> GetTransferenceByStartId(string startId, string senderName) =>
+        _context.Transferences
+            .Where(t => t.Id.ToString().StartsWith(startId) && t.SenderHolder == senderName)
+            .ToList();
+
 }

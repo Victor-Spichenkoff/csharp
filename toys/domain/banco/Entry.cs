@@ -80,6 +80,10 @@ public class BankEntry
                     _currentAccount?.ShowTransfers();
                     Mode = Modes.SelectionLogged;
                     break;
+                case Modes.ShowInformation:
+                    _currentAccount?.ShowAccountInfos();
+                    Mode = Modes.SelectionLogged;
+                    break;
                 case Modes.Close:
                     Console.WriteLine("Closing Bank");
                     break;
@@ -127,7 +131,9 @@ public enum Modes
     SelectionLogged,
     Exit,
     ShowTransfers,
-    Close
+    Close,
+    ShowInformation,
+    UndoTransfer
 }
 
 //TODO:
