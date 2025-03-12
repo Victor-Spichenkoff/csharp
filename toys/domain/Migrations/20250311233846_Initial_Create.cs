@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace toys.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial_Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,8 @@ namespace toys.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Holder = table.Column<string>(type: "TEXT", nullable: false),
                     Balance = table.Column<double>(type: "REAL", nullable: false),
-                    AccountType = table.Column<int>(type: "INTEGER", nullable: false)
+                    AccountType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SpecialCheck = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {

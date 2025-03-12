@@ -111,6 +111,7 @@ public class BankEntry
         catch (Exception ex)
         {
             ErrorHandler.ShowError(ex);
+            RunningMode();
         }
     }
 }

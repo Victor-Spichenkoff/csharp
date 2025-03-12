@@ -9,17 +9,20 @@ public class BaseAccount
     public int Id { get; set; }
     public string Holder { get; set; }
     public double Balance { get; set; }
+    public double SpecialCheck { get; set; }
 
-    protected BankRepository _bankRepository { get; set; }
+
+protected BankRepository _bankRepository { get; set; }
     public AccountType AccountType { get; set; }
     public IList<Transference> Transfers { get; set; } = [];
 
-    protected BaseAccount(int id, AccountType accountType, string holder, double balance)
+    protected BaseAccount(int id, AccountType accountType, string holder, double balance, double specialCheck = 0)
     {
         Id = id;
         Holder = holder;
         Balance = balance;
         AccountType = accountType;
+        SpecialCheck = specialCheck;
         // automático
         var serviceProvider = ContextUtils.ConfigureDI();
 
@@ -31,19 +34,28 @@ public class BaseAccount
         _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
     }
 
-    public virtual bool Sake()
+    /*
+     * Callback -> executada apos receber o valor e conferir balanço.
+     * Deve retornar o valor final a ser descontado/adicionado
+     */
+    public virtual bool Sake(SakeCallback? callback = null)
     {
         try
         {
             var valueString = Input.String("Withdraw how much (or q)? ");
             if (valueString.ToLower() == "q") return false;
 
-            var value = Convert.ToDouble(valueString);
+            var preValue = Convert.ToDouble(valueString);
 
             var account = _bankRepository.GetAccountByHolder(Holder);
-            if (account == null || account?.Balance - value < 0)
+            if (account == null || account?.Balance - preValue < 0)
                 return false;
 
+            // responsividade
+            double value = preValue;
+            if(callback != null)
+                value = callback(value);
+                
             account.Balance -= value;
             var success = _bankRepository.UpdateAccount(account);
             if (!success)
@@ -56,7 +68,7 @@ public class BaseAccount
         }
         catch
         {
-            return Sake();
+            return Sake(callback);
         }
     }
 
@@ -136,3 +148,6 @@ public class BaseAccount
         _bankRepository.CreateTransference(transference);
     }
 }
+
+
+public delegate double SakeCallback(double entryValue);

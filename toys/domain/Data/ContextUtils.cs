@@ -21,16 +21,14 @@ public static class ContextUtils
         serviceCollection.AddTransient<BankRepository>();
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
-
-        // Criar banco e aplicar migrations
-        Console.WriteLine("UTILS PATH: " + GetDbPath.Get());
+        
 
         var scope = serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<DataContext>();
         
         
         // db.Database.EnsureDeleted();
-        db.Database.EnsureCreated();
+        // db.Database.EnsureCreated();
         // db.Database.Migrate();
         
         // using (var scope = serviceProvider.CreateScope())
@@ -49,7 +47,7 @@ public static class GetDbPath
     public static string Get()
     {
         var projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\"));
-        Console.WriteLine("ROOT: " + projectRoot);
+
         // return Path.Combine(projectRoot, "Data", "bank.db");
         return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bank.db");
     }

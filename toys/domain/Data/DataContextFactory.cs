@@ -10,7 +10,6 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
         var path = GetDbPath.Get(); 
         // var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "bank.db");
-        Console.WriteLine("PATH Factory: " + path);
         optionsBuilder.UseSqlite($"Data Source={path}");
 
         return new DataContext(optionsBuilder.Options);

@@ -20,7 +20,21 @@ public class BankRepository(DataContext db)
     {
         if(_context.Accounts.Any(a => a.Holder == account.Holder ))
             throw new MyError("Holder already exists");
-        
+
+        //special check
+        if (account.AccountType == AccountType.Investments && account.Balance > 100)
+        {
+            var finalSpecialCheck = account.Balance * 0.7;
+            Console.WriteLine($"You have access to a 70% special check: ${finalSpecialCheck}");
+            account.SpecialCheck = finalSpecialCheck;
+        }
+        else if (account.AccountType == AccountType.Current && account.Balance > 100)
+        {
+            var finalSpecialCheck = account.Balance * 0.3;
+            Console.WriteLine($"You have access to a 30% special check: ${finalSpecialCheck}");
+            account.SpecialCheck = finalSpecialCheck;
+        }
+
         _context.Accounts.Add(account);
         _context.SaveChanges();
         return _context.Accounts.FirstOrDefault(a => a.Holder == account.Holder);

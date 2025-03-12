@@ -11,8 +11,8 @@ using toys.Data;
 namespace toys.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250309004037_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250311233846_Initial_Create")]
+    partial class Initial_Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace toys.Migrations
                     b.Property<string>("Holder")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("SpecialCheck")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
