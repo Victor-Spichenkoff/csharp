@@ -16,7 +16,6 @@ public class BaseAccount
 
 protected BankRepository _bankRepository { get; set; }
     public AccountType AccountType { get; set; }
-    public IList<Transference> Transfers { get; set; } = [];
 
     protected BaseAccount(int id, AccountType accountType, string holder, double balance, double specialCheck = 0)
     {
@@ -28,10 +27,6 @@ protected BankRepository _bankRepository { get; set; }
         // automático
         var serviceProvider = ContextUtils.ConfigureDI();
 
-        // using (var scope = serviceProvider.CreateScope())
-        // {
-            // _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
-        // }
         var scope = serviceProvider.CreateScope();
         _bankRepository = scope.ServiceProvider.GetRequiredService<BankRepository>();
     }
@@ -63,7 +58,7 @@ protected BankRepository _bankRepository { get; set; }
             if (!success)
                 return false;
 
-            AddTransfer(Holder, "WITHDRAWAL", value * -1);
+            AddTransfer(Holder, "WITHDRAWAL", value * -1, TransferType.Withdraw);
             
             Console.WriteLine($"Cashing out: ${value}");
             return true;
@@ -75,6 +70,9 @@ protected BankRepository _bankRepository { get; set; }
     }
 
     
+    /*
+     * Cuida de tudo, pergunta, manda realizar e salva
+     */
     // public virtual bool Transfer(SakeCallback? callback = null, string senderHolder)
     // {
     //     try
@@ -130,12 +128,11 @@ protected BankRepository _bankRepository { get; set; }
         var transfers = _bankRepository.GetTransfersDescendent(Holder, transfersToShow);
 
         Console.WriteLine("================= TRANSFERS =================");
-        Console.WriteLine("     ID           Date            Sender                  Value");
+        Console.WriteLine("     ID           Date                Sender                  ");
         foreach (var transfer in transfers)
         {
-            // todo: Deixar bonito o ID, se igual a outro (no desfazer), mostras as opções completas
             var formattedId = transfer.Id.ToString().Substring(0, 8);
-            Console.WriteLine($"[ {formattedId} ] {transfer.DateAndTime.ToLocalTime()} -- {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}");  
+            Console.WriteLine($"[ {formattedId} ] {transfer.DateAndTime.ToLocalTime()} | |   {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}   [ {transfer.Type.ToString()} ]");  
         }
         
         if (transfers.Count < transfersToShow)
@@ -176,12 +173,14 @@ protected BankRepository _bankRepository { get; set; }
      * Depositar -> +
      * Enviar a outro -> - (baseado no )
      */
-    protected void AddTransfer(string senderHolder, string receiverHolder, double value)
+    protected void AddTransfer(string senderHolder, string receiverHolder, double value, TransferType transferType = TransferType.Transfer)
     {
         var transference = new Transference()
         {
             ReceiverHolder = receiverHolder,
             SenderHolder = senderHolder,
+            Amount = value,
+            Type = transferType
         };
         _bankRepository.CreateTransference(transference);
     }
@@ -231,16 +230,14 @@ protected BankRepository _bankRepository { get; set; }
         // Apagar a transferência e devolver os valores
         //devolver:
         var value = transfersWithId[0].Amount;
-        var senderAccount = _bankRepository.GetAccountByHolder(transfersWithId[0].SenderHolder);
-        var receiverAccount = _bankRepository.GetAccountByHolder(transfersWithId[0].ReceiverHolder);
 
         // TODO: Vai ser uma transferencia
-        DoTransfer(transfersWithId[0].ReceiverHolder, transfersWithId[0].SenderHolder, value);
+        MakeTransfer(transfersWithId[0].ReceiverHolder, transfersWithId[0].SenderHolder, value, TransferType.Undo);
 
     }
 
 
-    public void DoTransfer(string sender, string receiver, double amount)
+    public void MakeTransfer(string sender, string receiver, double amount, TransferType type = TransferType.Transfer)
     {
         var senderAccount = _bankRepository.GetAccountByHolder(sender);
         var receiverAccount = _bankRepository.GetAccountByHolder(receiver);
@@ -254,7 +251,7 @@ protected BankRepository _bankRepository { get; set; }
         _bankRepository.UpdateAccount(senderAccount);
         _bankRepository.UpdateAccount(receiverAccount);
         
-        AddTransfer(sender, receiver, amount);
+        AddTransfer(sender, receiver, amount, type);
     }
 }
 
