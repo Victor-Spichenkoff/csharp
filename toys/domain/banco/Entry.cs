@@ -33,6 +33,8 @@ public class BankEntry
                 Mode = ModeHandler.SelectInitialType();
                 continue; // para não usar o Sleep
             }
+            else if(Mode == Modes.Exit)
+                return;
             else if (Mode == Modes.Close)
                 break;
             else if (Mode == Modes.SelectionLogged) // já logado, o que fazer?
@@ -92,6 +94,14 @@ public class BankEntry
                     _currentAccount?.UndoTransfer();
                     Mode = Modes.SelectionLogged;
                     break;
+                case Modes.Deposit:
+                    _currentAccount?.Deposit();
+                    Mode = Modes.SelectionLogged;
+                    break;
+                case Modes.ChangeInformation:
+                    _currentAccount?.ChangeInformation();
+                    Mode = Modes.SelectionLogged;
+                    break;
                 case Modes.Close:
                     Console.WriteLine("Closing Bank");
                     break;
@@ -139,6 +149,7 @@ public enum Modes
     Exit,
     ShowTransfers,
     Close,
+    ChangeInformation,
     ShowInformation,
     UndoTransfer
 }

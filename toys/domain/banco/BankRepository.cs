@@ -1,4 +1,5 @@
-﻿using toys.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using toys.Data;
 using toys.utils;
 
 namespace toys.banco;
@@ -78,6 +79,27 @@ public class BankRepository(DataContext db)
     public IList<Transference> GetTransferenceByStartId(string startId, string senderName) =>
         _context.Transferences
             .Where(t => t.Id.ToString().StartsWith(startId) && t.SenderHolder == senderName)
+            // .AsNoTracking()
             .ToList();
+        
 
+    public void DeleteTransfer(Transference? transference = null, string? transferId = null)
+    {
+        // if (transference != null)
+        //     _context.Transferences.Remove(transference);
+        // else if(transferId != null)
+        // {
+        //     var transfer = _context.Transferences.FirstOrDefault(t => t.Id.ToString().StartsWith(transferId));
+        // } 
+        if(transferId != null)
+        { 
+            transference = _context.Transferences.FirstOrDefault(t => t.Id.ToString().StartsWith(transferId));
+        }
+        else if (transference == null)
+            throw new MyError("Missing information!");
+        
+        _context.Transferences.Remove(transference);
+        _context.SaveChanges();
+    }
+    
 }

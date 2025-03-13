@@ -18,7 +18,7 @@ public static class ModeHandler
             else if (type == "2")
                 return Modes.Register;
             else if (type == "3")
-                return Modes.Close;
+                return Modes.Exit;
 
             Console.WriteLine("Wrong!");
         }
@@ -33,6 +33,7 @@ public static class ModeHandler
         Console.WriteLine("[ 5 ] Deposit");
         Console.WriteLine("[ 6 ] Transfer");
         Console.WriteLine("[ 7 ] Undo Transfer");
+        Console.WriteLine("[ 8 ] Change Information");
         Console.WriteLine("[ q ] Quit Action Mode");
         while (true)
         {
@@ -52,6 +53,8 @@ public static class ModeHandler
                 return Modes.Transfer;
             else if (type == "7")
                 return Modes.UndoTransfer;
+            else if (type == "8")
+                return Modes.ChangeInformation;
             else if (type == "q")
                 return Modes.SelectionInitial;
 

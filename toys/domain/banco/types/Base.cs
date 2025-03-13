@@ -8,14 +8,14 @@ namespace toys.banco.types;
 
 public class BaseAccount
 {
-    public int Id { get; set; }
-    public string Holder { get; set; }
-    public double Balance { get; set; }
-    public double SpecialCheck { get; set; }
+    protected int Id { get; set; }
+    protected string Holder { get; set; }
+    protected double Balance { get; set; }
+    protected double SpecialCheck { get; set; }
 
 
-protected BankRepository _bankRepository { get; set; }
-    public AccountType AccountType { get; set; }
+    protected BankRepository _bankRepository { get; set; }
+    protected AccountType AccountType { get; set; }
 
     protected BaseAccount(int id, AccountType accountType, string holder, double balance, double specialCheck = 0)
     {
@@ -50,18 +50,22 @@ protected BankRepository _bankRepository { get; set; }
 
             // responsividade
             double value = preValue;
-            if(callback != null)
+            if (callback != null)
                 value = callback(value);
-                
+
             account.Balance -= value;
             var success = _bankRepository.UpdateAccount(account);
             if (!success)
                 return false;
 
             AddTransfer(Holder, "WITHDRAWAL", value * -1, TransferType.Withdraw);
-            
+
             Console.WriteLine($"Cashing out: ${value}");
             return true;
+        }
+        catch (MyError myErr)
+        {
+            throw new MyError(myErr.Message);
         }
         catch
         {
@@ -69,9 +73,9 @@ protected BankRepository _bankRepository { get; set; }
         }
     }
 
-    
+
     /*
-     * Cuida de tudo, pergunta, manda realizar e salva
+     * Cuida de tudo: pergunta, manda realizar e salva
      */
     public virtual bool Transfer(SakeCallback? callback = null)
     {
@@ -81,28 +85,28 @@ protected BankRepository _bankRepository { get; set; }
             var receiverAccount = _bankRepository.GetAccountByHolder(receiverName);
             if (receiverAccount == null)
                 throw new MyError("User doesn't exist");
-            
+
             var baseValue = Input.Double("Transfer how much? ");
-            if(receiverName.ToLower() == "q") return false;
-  
-    
+            if (receiverName.ToLower() == "q") return false;
+
+
             var account = _bankRepository.GetAccountByHolder(Holder);
             if (account == null || account?.Balance - baseValue + SpecialCheck < 0)
                 throw new MyError("Not enough money! Poor!");
-    
+
             // responsividade
             double value = baseValue;
-            if(callback != null)
+            if (callback != null)
                 value = callback(value);
-                
-            
+
+
             Console.WriteLine($"Paying {value} to {receiverName}: ${value}");
-            
+
             var cont = Input.BoolEnglish("Confirm [y/n]: ");
 
             if (!cont)
-                throw new MyError("Operation cancelled"); 
-            
+                throw new MyError("Operation cancelled");
+
             MakeTransfer(Holder, receiverName, value);
             return true;
         }
@@ -111,7 +115,7 @@ protected BankRepository _bankRepository { get; set; }
             return Sake(callback);
         }
     }
-    
+
     public virtual double GetBalance()
     {
         var account = _bankRepository.GetAccountByHolder(Holder);
@@ -136,9 +140,10 @@ protected BankRepository _bankRepository { get; set; }
         foreach (var transfer in transfers)
         {
             var formattedId = transfer.Id.ToString().Substring(0, 8);
-            Console.WriteLine($"[ {formattedId} ] {transfer.DateAndTime.ToLocalTime()} | |   {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}   [ {transfer.Type.ToString()} ]");  
+            Console.WriteLine(
+                $"[ {formattedId} ] {transfer.DateAndTime.ToLocalTime()} | |   {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}   [ {transfer.Type.ToString()} ]");
         }
-        
+
         if (transfers.Count < transfersToShow)
         {
             Console.WriteLine("That's all!");
@@ -146,19 +151,19 @@ protected BankRepository _bankRepository { get; set; }
         }
 
 
-        var count = 2;//para o skip
+        var count = 2; //para o skip
         while (true)
         {
             var more = Input.BoolEnglish("Show More [y/n]? ");
             if (!more)
                 return true;
-            
+
             var newTransfers = _bankRepository.GetTransfersDescendent(Holder, transfersToShow, transfersToShow * count);
-            
+
             foreach (var transfer in newTransfers)
             {
                 var formattedId = transfer.Id.ToString().Substring(0, 4);
-                Console.WriteLine($"ID - {formattedId} -- ${transfer.DateAndTime.ToLocalTime()} -- ${transfer.Amount}");  
+                Console.WriteLine($"ID - {formattedId} -- ${transfer.DateAndTime.ToLocalTime()} -- ${transfer.Amount}");
             }
 
             if (newTransfers.Count < transfersToShow)
@@ -166,18 +171,20 @@ protected BankRepository _bankRepository { get; set; }
                 Console.WriteLine("That's all!");
                 return false;
             }
-            
+
             count++;
         }
+
         return true;
     }
-    
-    
+
+
     /*
      * Depositar -> +
      * Enviar a outro -> - (baseado no )
      */
-    protected void AddTransfer(string senderHolder, string receiverHolder, double value, TransferType transferType = TransferType.Transfer)
+    protected void AddTransfer(string senderHolder, string receiverHolder, double value,
+        TransferType transferType = TransferType.Transfer)
     {
         var transference = new Transference()
         {
@@ -202,9 +209,19 @@ protected BankRepository _bankRepository { get; set; }
         Console.WriteLine("=================================================\n");
     }
 
-    // id sender            receiver [UNDO]
-    //435 antigo_receiver   antigo_sender
-    
+    public void Deposit()
+    {
+        var amount = Input.Double("Deposit amount: ");
+        var account = _bankRepository.GetAccountByHolder(Holder);
+
+        account.Balance += amount;
+
+        _bankRepository.UpdateAccount(account);
+
+        Console.WriteLine($"Deposited {amount} to {Holder}");
+        Console.WriteLine("===============================================");
+    }
+
     public void UndoTransfer()
     {
         var transferId = Input.String("Transfer ID [or q]: ");
@@ -213,59 +230,108 @@ protected BankRepository _bankRepository { get; set; }
             BankEntry.Mode = Modes.SelectionLogged;
             throw new JustBreak("Operation cancelled");
         }
-        
-        var transfersWithId = _bankRepository.GetTransferenceByStartId(transferId, Holder);
-        
-        if(transfersWithId.Count == 0)
-            throw new MyError($"No transfer with ID {transferId} found in your account!");
-        
-        //TODO: PARA TESTERS
-        transfersWithId.Add(transfersWithId[0]);
 
+        var transfersWithId = _bankRepository.GetTransferenceByStartId(transferId, Holder);
+
+        if (transfersWithId.Count == 0)
+            throw new MyError($"No transfer with ID {transferId} found in your account!");
 
         if (transfersWithId.Count > 1)
         {
             Console.WriteLine("\nMore than one transfer with that ID");
             Console.WriteLine("================= TRANSFERS =================");
-            Console.WriteLine("     ID           Date            Sender                  ");
+            // Console.WriteLine("     ID           Date            Sender                  ");
             foreach (var transfer in transfersWithId)
-                Console.WriteLine($"[ {transferId} ] {transfer.DateAndTime.ToLocalTime()} -- {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}");  
-            
+                Console.WriteLine(
+                    $"[ {transfer.Id} ] {transfer.DateAndTime.ToLocalTime()} -- {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}");
+
             UndoTransfer();
             return;
         }
 
         if (transfersWithId[0].Type != TransferType.Transfer)
             throw new MyError("You can only undo TRANSFERS!");
-        
-        // TODO:
 
-        throw new JustBreak("PARANDO AQUI");
         var value = transfersWithId[0].Amount;
 
         MakeTransfer(transfersWithId[0].ReceiverHolder, transfersWithId[0].SenderHolder, value, TransferType.Undo);
-        // TODO: Apagar a trans, antes e testar mesmo
+        _bankRepository.DeleteTransfer(transfersWithId[0]);
 
+        Console.WriteLine($"UNDO transfer with ID: {transferId}");
     }
 
+
+    public void ChangeInformation()
+    {
+        Console.WriteLine("==================== INFORMATION ====================");
+        Console.WriteLine($"Just press ENTER to SKIP");
+        var specialCheckLabel = (AccountType is AccountType.Salary or AccountType.Savings or AccountType.Digital
+            ? "NOT ALLOWED"
+            : SpecialCheck.ToString(CultureInfo.CurrentCulture));
+        Console.WriteLine($"[ CURRENT ] Special Check: {specialCheckLabel}");
+        if (specialCheckLabel.Contains("NOT"))
+        {
+            Console.WriteLine("You can't change it!");
+        }
+        else
+        {
+            var newSpecialCheck = Input.String("Enter NEW Special Check [q]: ");
+            if (newSpecialCheck.ToLower() == "q")
+            {
+                BankEntry.Mode = Modes.SelectionLogged;
+                return;
+            }
+
+            var maxSpecialCheck = AccountType == AccountType.Current ? Balance * 0.5 : Balance;
+            
+            var account = _bankRepository.GetAccountByHolder(Holder);
+            if(account == null)
+                throw new MyError($"Account with holder [{Holder}] does not exist!");
+
+
+            try
+            {
+                var newSpecialCheckDouble = Double.Parse(newSpecialCheck.Trim());
+                if (newSpecialCheckDouble > maxSpecialCheck)
+                    throw new MyError($"The value ${newSpecialCheckDouble} excedes your limit of ${maxSpecialCheck}");
+
+                account.SpecialCheck += newSpecialCheckDouble;
+            }
+            catch (MyError myError)
+            {
+                throw new MyError(myError.Message);
+            }
+            catch
+            {
+                throw new MyError($"Invalid number {newSpecialCheck}");
+            }
+            
+            Console.WriteLine("NEW INFORMATIONS:");
+            Console.WriteLine($"Special Check: ${newSpecialCheck}");
+            var cont = Input.BoolEnglish("Continue [y/n]: ");
+            if (!cont)
+                throw new MyError("Operation cancelled");
+            
+            _bankRepository.UpdateAccount(account);
+        }
+    }
 
     public void MakeTransfer(string sender, string receiver, double amount, TransferType type = TransferType.Transfer)
     {
         var senderAccount = _bankRepository.GetAccountByHolder(sender);
         var receiverAccount = _bankRepository.GetAccountByHolder(receiver);
-        
-        if(senderAccount == null || receiverAccount == null)
+
+        if (senderAccount == null || receiverAccount == null)
             throw new MyError("One or more account weren't found");
-        
+
         senderAccount.Balance -= amount;
         receiverAccount.Balance += amount;
 
         _bankRepository.UpdateAccount(senderAccount);
         _bankRepository.UpdateAccount(receiverAccount);
-        
+
         AddTransfer(sender, receiver, amount, type);
     }
 }
-
 
 public delegate double SakeCallback(double entryValue);

@@ -12,7 +12,9 @@ public class ErrorHandler
         {
             Console.WriteLine("\n\n\n\n");
             Console.WriteLine(myError.Label);
-            Console.WriteLine(myError.Message);
+            Console.WriteLine(myError.Message);;
+            Console.WriteLine(string.Concat(Enumerable.Repeat("=", myError.Label.Trim().Length)));
+            Console.WriteLine("\n\n");
         }
         catch (JustBreak breakError)
         {
