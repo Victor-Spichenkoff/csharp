@@ -45,8 +45,8 @@ protected BankRepository _bankRepository { get; set; }
             var preValue = Convert.ToDouble(valueString);
 
             var account = _bankRepository.GetAccountByHolder(Holder);
-            if (account == null || account?.Balance - preValue < 0)
-                return false;
+            if (account == null || account?.Balance - preValue + SpecialCheck < 0)
+                throw new MyError("Not enough money! Poor!");
 
             // responsividade
             double value = preValue;
@@ -73,41 +73,45 @@ protected BankRepository _bankRepository { get; set; }
     /*
      * Cuida de tudo, pergunta, manda realizar e salva
      */
-    // public virtual bool Transfer(SakeCallback? callback = null, string senderHolder)
-    // {
-    //     try
-    //     {
-    //         var valueString = Input.String("Transfer how much (or q)? ");
-    //         var recieverId = 
-    //         if (valueString.ToLower() == "q") return false;
-    //
-    //         var preValue = Convert.ToDouble(valueString);
-    //
-    //         var account = _bankRepository.GetAccountByHolder(Holder);
-    //         if (account == null || account?.Balance - preValue < 0)
-    //             return false;
-    //
-    //         // responsividade
-    //         double value = preValue;
-    //         if(callback != null)
-    //             value = callback(value);
-    //             
-    //         account.Balance -= value;
-    //         var success = _bankRepository.UpdateAccount(account);
-    //         if (!success)
-    //             return false;
-    //
-    //         AddTransfer(Holder, "WITHDRAWAL", value * -1);
-    //         
-    //         Console.WriteLine($"Cashing out: ${value}");
-    //         return true;
-    //     }
-    //     catch
-    //     {
-    //         return Sake(callback);
-    //     }
-    // }
-    //
+    public virtual bool Transfer(SakeCallback? callback = null)
+    {
+        try
+        {
+            var receiverName = Input.String("Receiver NAME (or q): ");
+            var receiverAccount = _bankRepository.GetAccountByHolder(receiverName);
+            if (receiverAccount == null)
+                throw new MyError("User doesn't exist");
+            
+            var baseValue = Input.Double("Transfer how much? ");
+            if(receiverName.ToLower() == "q") return false;
+  
+    
+            var account = _bankRepository.GetAccountByHolder(Holder);
+            if (account == null || account?.Balance - baseValue + SpecialCheck < 0)
+                throw new MyError("Not enough money! Poor!");
+    
+            // responsividade
+            double value = baseValue;
+            if(callback != null)
+                value = callback(value);
+                
+            
+            Console.WriteLine($"Paying {value} to {receiverName}: ${value}");
+            
+            var cont = Input.BoolEnglish("Confirm [y/n]: ");
+
+            if (!cont)
+                throw new MyError("Operation cancelled"); 
+            
+            MakeTransfer(Holder, receiverName, value);
+            return true;
+        }
+        catch
+        {
+            return Sake(callback);
+        }
+    }
+    
     public virtual double GetBalance()
     {
         var account = _bankRepository.GetAccountByHolder(Holder);
@@ -203,36 +207,44 @@ protected BankRepository _bankRepository { get; set; }
     
     public void UndoTransfer()
     {
-        var transferId = Input.String("Transfer ID: ");
+        var transferId = Input.String("Transfer ID [or q]: ");
+        if (transferId.ToLower() == "q")
+        {
+            BankEntry.Mode = Modes.SelectionLogged;
+            throw new JustBreak("Operation cancelled");
+        }
+        
         var transfersWithId = _bankRepository.GetTransferenceByStartId(transferId, Holder);
+        
+        if(transfersWithId.Count == 0)
+            throw new MyError($"No transfer with ID {transferId} found in your account!");
         
         //TODO: PARA TESTERS
         transfersWithId.Add(transfersWithId[0]);
-        
-        
-        
-        if(transfersWithId.Count == 0)
-            throw new MyError($"No transfer with ID {transferId} found");
+
 
         if (transfersWithId.Count > 1)
         {
-            Console.WriteLine("More than one transfer with that ID");
+            Console.WriteLine("\nMore than one transfer with that ID");
             Console.WriteLine("================= TRANSFERS =================");
-            Console.WriteLine("     ID           Date            Sender                  Value");
+            Console.WriteLine("     ID           Date            Sender                  ");
             foreach (var transfer in transfersWithId)
                 Console.WriteLine($"[ {transferId} ] {transfer.DateAndTime.ToLocalTime()} -- {transfer.SenderHolder} -> {transfer.ReceiverHolder} -- $ {transfer.Amount}");  
             
             UndoTransfer();
             return;
         }
+
+        if (transfersWithId[0].Type != TransferType.Transfer)
+            throw new MyError("You can only undo TRANSFERS!");
         
         // TODO:
-        // Apagar a transferência e devolver os valores
-        //devolver:
+
+        throw new JustBreak("PARANDO AQUI");
         var value = transfersWithId[0].Amount;
 
-        // TODO: Vai ser uma transferencia
         MakeTransfer(transfersWithId[0].ReceiverHolder, transfersWithId[0].SenderHolder, value, TransferType.Undo);
+        // TODO: Apagar a trans, antes e testar mesmo
 
     }
 

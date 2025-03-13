@@ -14,6 +14,10 @@ public class ErrorHandler
             Console.WriteLine(myError.Label);
             Console.WriteLine(myError.Message);
         }
+        catch (JustBreak breakError)
+        {
+            Console.WriteLine("\n\n" + breakError.Message + "\n");
+        }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);

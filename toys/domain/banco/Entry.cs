@@ -84,6 +84,14 @@ public class BankEntry
                     _currentAccount?.ShowAccountInfos();
                     Mode = Modes.SelectionLogged;
                     break;
+                case Modes.Transfer:
+                    _currentAccount?.Transfer();
+                    Mode = Modes.SelectionLogged;
+                    break;
+                case Modes.UndoTransfer:
+                    _currentAccount?.UndoTransfer();
+                    Mode = Modes.SelectionLogged;
+                    break;
                 case Modes.Close:
                     Console.WriteLine("Closing Bank");
                     break;
@@ -100,14 +108,12 @@ public class BankEntry
     }
 
     //TODO:
-    //Formatar saida das trasnferencias:
-    // [ 6d57 ] 10/03/2025 20:43:49 --> $0
+    //Formatar saida das transferências:
 
     
 
     public void Run()
     {
-        // todo:
         try
         {
             RunningMode();
@@ -115,7 +121,7 @@ public class BankEntry
         catch (Exception ex)
         {
             ErrorHandler.ShowError(ex);
-            RunningMode();
+            Run();
         }
     }
 }
@@ -127,6 +133,7 @@ public enum Modes
     Sake,
     Consult,
     Deposit,
+    Transfer,
     SelectionInitial,
     SelectionLogged,
     Exit,

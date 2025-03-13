@@ -31,7 +31,8 @@ public static class ModeHandler
         Console.WriteLine("[ 3 ] Sake");
         Console.WriteLine("[ 4 ] Show Transfers");
         Console.WriteLine("[ 5 ] Deposit");
-        Console.WriteLine("[ 6 ] Undo Transfer");
+        Console.WriteLine("[ 6 ] Transfer");
+        Console.WriteLine("[ 7 ] Undo Transfer");
         Console.WriteLine("[ q ] Quit Action Mode");
         while (true)
         {
@@ -48,6 +49,8 @@ public static class ModeHandler
             else if (type == "5")
                 return Modes.Deposit;
             else if (type == "6")
+                return Modes.Transfer;
+            else if (type == "7")
                 return Modes.UndoTransfer;
             else if (type == "q")
                 return Modes.SelectionInitial;
