@@ -283,9 +283,9 @@ public class BaseAccount
             }
 
             var maxSpecialCheck = AccountType == AccountType.Current ? Balance * 0.5 : Balance;
-            
+
             var account = _bankRepository.GetAccountByHolder(Holder);
-            if(account == null)
+            if (account == null)
                 throw new MyError($"Account with holder [{Holder}] does not exist!");
 
 
@@ -305,13 +305,13 @@ public class BaseAccount
             {
                 throw new MyError($"Invalid number {newSpecialCheck}");
             }
-            
+
             Console.WriteLine("NEW INFORMATIONS:");
             Console.WriteLine($"Special Check: ${newSpecialCheck}");
             var cont = Input.BoolEnglish("Continue [y/n]: ");
             if (!cont)
                 throw new MyError("Operation cancelled");
-            
+
             _bankRepository.UpdateAccount(account);
         }
     }
@@ -331,6 +331,18 @@ public class BaseAccount
         _bankRepository.UpdateAccount(receiverAccount);
 
         AddTransfer(sender, receiver, amount, type);
+    }
+
+    public void ShowAccounts()
+    {
+        var accounts = _bankRepository.GetAccounts();
+
+        Console.WriteLine("\n\n================= ACCOUNTS =================");
+        foreach (var a in accounts)
+        {
+            Console.WriteLine($"[ {a.Id} ]  {a.Holder.PadRight(12)}   |   {a.AccountType.ToString().PadRight(12)}   |   ${a.Balance.ToString().PadLeft(12)}");
+        }
+        Console.WriteLine("============================================\n");
     }
 }
 

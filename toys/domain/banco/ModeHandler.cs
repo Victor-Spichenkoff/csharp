@@ -10,6 +10,7 @@ public static class ModeHandler
         Console.WriteLine("\n[ 1 ] Login");
         Console.WriteLine("[ 2 ] Sign Up");
         Console.WriteLine("[ 3 ] Exit");
+        Console.WriteLine("[ 4 ] Show all accounts");
         while (true)
         {
             var type = Input.String("What do you want to do? ");
@@ -19,6 +20,8 @@ public static class ModeHandler
                 return Modes.Register;
             else if (type == "3")
                 return Modes.Exit;
+            else if (type == "4")
+                return Modes.ShowAccounts;
 
             Console.WriteLine("Wrong!");
         }

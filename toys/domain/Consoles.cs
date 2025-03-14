@@ -9,6 +9,7 @@ class MyStrings {
     [2] - Jokenpô
     [3] - Anagramas
     [4] - Password Generator
+    [5] - Bank
     [q] - Sair
 Escolha: ";
     }

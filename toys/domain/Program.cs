@@ -54,6 +54,12 @@ class Program
         
         if(res == "4")
             Password.Principal();
+
+        if (res == "5")
+        {
+            var bank = new BankEntry();
+            bank.Run();
+        }
         
         if(res == "q")
         {
@@ -67,11 +73,9 @@ class Program
     }
     public static void Main(string[] args)
     {
-        var Bank = new BankEntry();
-        Bank.Run();
-        // Console.Clear();
-        // Password.Principal();
-        // ChoseGame();
+        
+        Console.Clear();
+        ChoseGame();
         System.Environment.Exit(0);
     }
 }

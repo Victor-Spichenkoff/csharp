@@ -65,6 +65,16 @@ public class BankEntry
                 _currentAccount = CreateCorrectClass.GiveAccount(accountInfo);
                 Mode = Modes.SelectionLogged;
             }
+            else if (Mode == Modes.ShowAccounts)
+            {
+                var accounts = new Account()
+                {
+                    };
+                _currentAccount = CreateCorrectClass.GiveAccount(accounts);
+                _currentAccount?.ShowAccounts();
+                Mode = Modes.SelectionInitial;
+            }
+            // TODO: Não mostra todas as contas
 
 
             // controlar as açoes pós login
@@ -151,7 +161,8 @@ public enum Modes
     Close,
     ChangeInformation,
     ShowInformation,
-    UndoTransfer
+    UndoTransfer,
+    ShowAccounts
 }
 
 //TODO:
