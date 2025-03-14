@@ -337,12 +337,12 @@ public class BaseAccount
     {
         var accounts = _bankRepository.GetAccounts();
 
-        Console.WriteLine("\n\n================= ACCOUNTS =================");
+        Console.WriteLine("\n\n======================== ACCOUNTS ========================");
         foreach (var a in accounts)
         {
             Console.WriteLine($"[ {a.Id} ]  {a.Holder.PadRight(12)}   |   {a.AccountType.ToString().PadRight(12)}   |   ${a.Balance.ToString().PadLeft(12)}");
         }
-        Console.WriteLine("============================================\n");
+        Console.WriteLine("==========================================================\n");
     }
 }
 

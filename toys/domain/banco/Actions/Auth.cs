@@ -1,4 +1,5 @@
 ﻿using Inputs;
+using toys.utils;
 
 namespace toys.banco.Actions.Create;
 
@@ -10,7 +11,13 @@ public class Auth(BankRepository br)
     public Account CreateAccount()
         // public void CreateAccount()
     {
-        var holder = Input.String("Your name: ");
+        var holder = Input.String("Your name[q]: ");
+        if (holder.ToLower() == "q")
+        {
+            BankEntry.Mode = Modes.SelectionInitial;
+            throw new MyError("Operation cancelled");
+        }
+        
         var balance = Input.Double("Your start balance: ");
         Console.WriteLine("[ 1 ] - Current");
         Console.WriteLine("[ 2 ] - Savings");
